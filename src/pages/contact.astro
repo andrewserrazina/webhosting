@@ -1,0 +1,88 @@
+---
+import { Mail, ClipboardCheck, FileSearch, MessageSquareText } from '@lucide/astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from '../components/contact/ContactForm.astro';
+import { site } from '../data/site';
+
+const steps = [
+  {
+    icon: ClipboardCheck,
+    title: 'Tell us about your business',
+    body: 'Share a few details and, if you have one, your current website address.',
+  },
+  {
+    icon: FileSearch,
+    title: 'We review your website',
+    body: 'We look at design, mobile experience, speed, search basics, accessibility, and how easily visitors can contact you.',
+  },
+  {
+    icon: MessageSquareText,
+    title: 'You get clear recommendations',
+    body: 'We send practical, plain-language findings and suggested next steps. No obligation and no pressure.',
+  },
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}/` },
+    { '@type': 'ListItem', position: 2, name: 'Contact', item: `${site.url}/contact` },
+  ],
+};
+---
+
+<BaseLayout
+  title="Contact Us — Request a Free Website Audit"
+  description="Request a free website audit from Northline Digital, or tell us about your website overhaul, new website, or digital project."
+  jsonLd={jsonLd}
+>
+  <section class="pt-16 pb-24 lg:pt-24 lg:pb-32" aria-labelledby="page-title">
+    <div class="container-x grid gap-16 lg:grid-cols-12 lg:gap-12">
+      <div class="lg:col-span-5">
+        <p class="eyebrow text-gold-ink">Contact</p>
+        <h1 id="page-title" class="mt-6 text-5xl leading-[1.03] font-medium sm:text-6xl">
+          Request your free website audit.
+        </h1>
+        <p class="mt-6 text-lg leading-relaxed text-slate-ink">
+          Whether you need a full overhaul, a brand-new website, or just an honest second opinion, start here. Tell us a
+          little about your business and we’ll take it from there.
+        </p>
+
+        <h2 class="mt-12 font-sans text-xs font-semibold tracking-[0.18em] text-navy uppercase">How the audit works</h2>
+        <ol class="mt-6 space-y-6">
+          {steps.map(({ icon: Icon, title, body }) => (
+            <li class="flex gap-4">
+              <span class="inline-flex size-11 shrink-0 items-center justify-center rounded-full bg-navy text-gold">
+                <Icon class="size-5" aria-hidden="true" />
+              </span>
+              <div>
+                <h3 class="font-sans text-base font-semibold">{title}</h3>
+                <p class="mt-1 leading-relaxed text-slate-ink">{body}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+
+        {site.contactEmail && (
+          <div class="mt-12 border-t border-line pt-8">
+            <h2 class="font-sans text-xs font-semibold tracking-[0.18em] text-navy uppercase">Prefer email?</h2>
+            <a
+              href={`mailto:${site.contactEmail}`}
+              class="font-display mt-3 inline-flex items-center gap-3 text-2xl break-all text-navy underline-offset-4 hover:underline"
+            >
+              <Mail class="size-5 shrink-0 text-gold-ink" aria-hidden="true" />
+              {site.contactEmail}
+            </a>
+          </div>
+        )}
+      </div>
+
+      <div class="lg:col-span-7">
+        <div class="rounded-3xl border border-line bg-paper-200 p-6 sm:p-10 lg:p-12">
+          <ContactForm />
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,32 @@
+---
+import { CircleCheck } from '@lucide/astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Button from '../../components/ui/Button.astro';
+---
+
+<BaseLayout
+  title="Thank You — Request Received"
+  description="Thanks for contacting Northline Digital. Your request has been received."
+  noindex
+>
+  <section class="py-24 lg:py-36" aria-labelledby="page-title">
+    <div class="container-x max-w-3xl">
+      <CircleCheck class="size-12 text-gold-ink" aria-hidden="true" />
+      <h1 id="page-title" class="mt-8 text-5xl leading-[1.05] font-medium sm:text-6xl">
+        Thank you — your request has been received.
+      </h1>
+      <p class="mt-6 text-lg leading-relaxed text-slate-ink">
+        We’ll review your details and reply by email with next steps. Keep an eye on your inbox, and check your spam
+        folder just in case.
+      </p>
+      <div class="mt-10 flex flex-col gap-4 sm:flex-row">
+        <Button href="/work" variant="navy" arrow>
+          Explore our work
+        </Button>
+        <Button href="/" variant="outline">
+          Back to home
+        </Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,439 @@
+---
+import { CircleAlert, CircleCheck, LoaderCircle } from '@lucide/astro';
+import { SERVICE_OPTIONS, BUDGET_OPTIONS, HONEYPOT_FIELD, STARTED_AT_FIELD, LIMITS } from '../../lib/contact';
+import { site } from '../../data/site';
+
+const inputBase =
+  'mt-2 block w-full rounded-xl border border-line bg-white px-4 py-3 text-base text-navy placeholder:text-slate/80 transition-[border-color,box-shadow] focus:border-navy focus:shadow-[0_0_0_3px_rgb(11_31_58/0.12)] focus:outline-none aria-[invalid=true]:border-red-700 aria-[invalid=true]:shadow-[0_0_0_3px_rgb(185_28_28/0.12)]';
+const labelBase = 'block text-sm font-semibold text-navy';
+const errorBase = 'mt-2 hidden text-sm font-medium text-red-800';
+---
+
+<div class="relative" data-contact>
+  <form
+    action="/api/contact"
+    method="post"
+    novalidate
+    class="space-y-6"
+    data-contact-form
+    data-turnstile={site.turnstileSiteKey ? 'true' : 'false'}
+    aria-describedby="form-required-note"
+  >
+    <p id="form-required-note" class="text-sm text-slate-ink">
+      Fields marked{' '}
+      <span aria-hidden="true" class="text-red-800">
+        *
+      </span>
+      <span class="sr-only">with an asterisk</span> are required.
+    </p>
+
+    <div
+      role="alert"
+      aria-live="assertive"
+      tabindex="-1"
+      class="hidden rounded-xl border border-red-200 bg-red-50 p-4 text-red-900"
+      data-form-error
+    >
+      <div class="flex gap-3">
+        <CircleAlert class="mt-0.5 size-5 shrink-0" aria-hidden="true" />
+        <div>
+          <p class="font-semibold" data-form-error-title>
+            Your request was not sent.
+          </p>
+          <p class="mt-1 text-sm" data-form-error-message></p>
+          {site.contactEmail && (
+            <p class="mt-2 text-sm">
+              You can also email us at{' '}
+              <a class="font-semibold underline" href={`mailto:${site.contactEmail}`}>
+                {site.contactEmail}
+              </a>
+              .
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
+
+    <div class="grid gap-6 sm:grid-cols-2">
+      <div>
+        <label for="cf-name" class={labelBase}>
+          Name{' '}
+          <span aria-hidden="true" class="text-red-800">
+            *
+          </span>
+        </label>
+        <input
+          id="cf-name"
+          name="name"
+          type="text"
+          autocomplete="name"
+          required
+          minlength={LIMITS.name.min}
+          maxlength={LIMITS.name.max}
+          aria-describedby="cf-name-error"
+          class={inputBase}
+        />
+        <p id="cf-name-error" class={errorBase} data-error-for="name"></p>
+      </div>
+      <div>
+        <label for="cf-email" class={labelBase}>
+          Email{' '}
+          <span aria-hidden="true" class="text-red-800">
+            *
+          </span>
+        </label>
+        <input
+          id="cf-email"
+          name="email"
+          type="email"
+          autocomplete="email"
+          inputmode="email"
+          required
+          maxlength={LIMITS.email.max}
+          aria-describedby="cf-email-error"
+          class={inputBase}
+        />
+        <p id="cf-email-error" class={errorBase} data-error-for="email"></p>
+      </div>
+    </div>
+
+    <div class="grid gap-6 sm:grid-cols-2">
+      <div>
+        <label for="cf-business" class={labelBase}>
+          Business name{' '}
+          <span aria-hidden="true" class="text-red-800">
+            *
+          </span>
+        </label>
+        <input
+          id="cf-business"
+          name="business"
+          type="text"
+          autocomplete="organization"
+          required
+          maxlength={LIMITS.business.max}
+          aria-describedby="cf-business-error"
+          class={inputBase}
+        />
+        <p id="cf-business-error" class={errorBase} data-error-for="business"></p>
+      </div>
+      <div>
+        <label for="cf-website" class={labelBase}>
+          Existing website <span class="font-normal text-slate-ink">(optional)</span>
+        </label>
+        <input
+          id="cf-website"
+          name="website"
+          type="text"
+          inputmode="url"
+          autocomplete="url"
+          placeholder="yourbusiness.com"
+          maxlength={LIMITS.website.max}
+          aria-describedby="cf-website-error"
+          class={inputBase}
+        />
+        <p id="cf-website-error" class={errorBase} data-error-for="website"></p>
+      </div>
+    </div>
+
+    <div class="grid gap-6 sm:grid-cols-2">
+      <div>
+        <label for="cf-service" class={labelBase}>
+          Service needed{' '}
+          <span aria-hidden="true" class="text-red-800">
+            *
+          </span>
+        </label>
+        <select
+          id="cf-service"
+          name="service"
+          required
+          aria-describedby="cf-service-error"
+          class={`${inputBase} appearance-none bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%230B1F3A%22 stroke-width=%222%22><path d=%22m6 9 6 6 6-6%22/></svg>')] bg-[length:1.1rem] bg-[right_1rem_center] bg-no-repeat pr-10`}
+        >
+          <option value="">Choose a service…</option>
+          {SERVICE_OPTIONS.map((o) => (
+            <option value={o.value}>{o.label}</option>
+          ))}
+        </select>
+        <p id="cf-service-error" class={errorBase} data-error-for="service"></p>
+      </div>
+      <div>
+        <label for="cf-budget" class={labelBase}>
+          Budget range <span class="font-normal text-slate-ink">(optional)</span>
+        </label>
+        <select
+          id="cf-budget"
+          name="budget"
+          aria-describedby="cf-budget-error"
+          class={`${inputBase} appearance-none bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%230B1F3A%22 stroke-width=%222%22><path d=%22m6 9 6 6 6-6%22/></svg>')] bg-[length:1.1rem] bg-[right_1rem_center] bg-no-repeat pr-10`}
+        >
+          <option value="">Prefer not to say</option>
+          {BUDGET_OPTIONS.map((o) => (
+            <option value={o.value}>{o.label}</option>
+          ))}
+        </select>
+        <p id="cf-budget-error" class={errorBase} data-error-for="budget"></p>
+      </div>
+    </div>
+
+    <div>
+      <label for="cf-message" class={labelBase}>
+        Brief project description{' '}
+        <span aria-hidden="true" class="text-red-800">
+          *
+        </span>
+      </label>
+      <p id="cf-message-hint" class="mt-1 text-sm text-slate-ink">
+        What’s working, what isn’t, and what you’d like to improve.
+      </p>
+      <textarea
+        id="cf-message"
+        name="message"
+        rows="6"
+        required
+        minlength={LIMITS.message.min}
+        maxlength={LIMITS.message.max}
+        aria-describedby="cf-message-hint cf-message-error"
+        class={`${inputBase} resize-y`}
+      ></textarea>
+      <p id="cf-message-error" class={errorBase} data-error-for="message"></p>
+    </div>
+
+    {/* Honeypot: hidden from people and assistive tech; bots tend to fill it. */}
+    <div class="absolute -left-[9999px] h-px w-px overflow-hidden" aria-hidden="true">
+      <label for="cf-ref">Reference code (leave blank)</label>
+      <input id="cf-ref" name={HONEYPOT_FIELD} type="text" tabindex="-1" autocomplete="off" />
+    </div>
+    <input type="hidden" name={STARTED_AT_FIELD} value="" data-started-at />
+
+    <div>
+      <div class="flex gap-3">
+        <input
+          id="cf-consent"
+          name="consent"
+          type="checkbox"
+          value="yes"
+          required
+          aria-describedby="cf-consent-error"
+          class="mt-1 size-5 shrink-0 cursor-pointer rounded border-line accent-navy"
+        />
+        <label for="cf-consent" class="text-sm leading-relaxed text-slate-ink">
+          I agree that Northline Digital may use the information I’ve provided to respond to my inquiry, as described in
+          the{' '}
+          <a href="/privacy" class="font-semibold text-navy underline underline-offset-2">
+            Privacy Policy
+          </a>
+          .
+          <span aria-hidden="true" class="text-red-800">
+            *
+          </span>
+        </label>
+      </div>
+      <p id="cf-consent-error" class={errorBase} data-error-for="consent"></p>
+    </div>
+
+    {site.turnstileSiteKey && (
+      <div class="cf-turnstile" data-sitekey={site.turnstileSiteKey} data-theme="light" data-size="flexible"></div>
+    )}
+
+    <div class="flex flex-col gap-4 pt-2 sm:flex-row sm:items-center">
+      <button
+        type="submit"
+        class="inline-flex h-14 items-center justify-center gap-2 rounded-full bg-gold px-8 text-base font-semibold text-navy shadow-[0_10px_30px_-12px_rgb(214_172_101/0.8)] transition-colors hover:bg-gold-300 disabled:cursor-wait disabled:opacity-70"
+        data-submit
+      >
+        <LoaderCircle class="hidden size-5 animate-spin" aria-hidden="true" data-spinner />
+        <span data-submit-label>Request My Free Website Audit</span>
+      </button>
+      <p class="text-sm text-slate-ink">No obligation. We’ll reply by email.</p>
+    </div>
+  </form>
+
+  <div class="hidden rounded-2xl border border-line bg-white p-8 sm:p-10" role="status" tabindex="-1" data-form-success>
+    <CircleCheck class="size-10 text-gold-ink" aria-hidden="true" />
+    <h2 class="mt-6 text-3xl font-medium">Thank you — your request has been received.</h2>
+    <p class="mt-4 text-lg leading-relaxed text-slate-ink">
+      We’ll review your details and reply to{' '}
+      <strong class="text-navy" data-success-email>
+        your email
+      </strong>{' '}
+      with next steps. Keep an eye on your inbox (and spam folder, just in case).
+    </p>
+    <p class="mt-6 text-sm text-slate-ink">
+      Reference:{' '}
+      <span class="font-mono" data-success-ref>
+        —
+      </span>
+    </p>
+    <a href="/work" class="mt-8 inline-flex items-center font-semibold text-navy underline underline-offset-4">
+      Explore our work while you wait
+    </a>
+  </div>
+</div>
+
+{site.turnstileSiteKey && (
+  <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+)}
+
+<script>
+  import { validateContact, STARTED_AT_FIELD, SERVICE_OPTIONS, type ContactField } from '../../lib/contact';
+
+  const root = document.querySelector<HTMLElement>('[data-contact]');
+  const form = root?.querySelector<HTMLFormElement>('[data-contact-form]');
+
+  if (root && form) {
+    const errorBox = root.querySelector<HTMLElement>('[data-form-error]')!;
+    const errorMessage = root.querySelector<HTMLElement>('[data-form-error-message]')!;
+    const success = root.querySelector<HTMLElement>('[data-form-success]')!;
+    const submit = form.querySelector<HTMLButtonElement>('[data-submit]')!;
+    const submitLabel = form.querySelector<HTMLElement>('[data-submit-label]')!;
+    const spinner = form.querySelector<SVGElement>('[data-spinner]');
+    const startedAt = form.querySelector<HTMLInputElement>('[data-started-at]')!;
+    startedAt.value = String(Date.now());
+
+    // Preselect service from ?service= links on other pages.
+    const preset = new URLSearchParams(location.search).get('service');
+    const serviceSelect = form.querySelector<HTMLSelectElement>('select[name="service"]');
+    if (preset && serviceSelect && SERVICE_OPTIONS.some((o) => o.value === preset)) serviceSelect.value = preset;
+
+    const touched = new Set<string>();
+
+    const formValues = (): Record<string, unknown> => {
+      const data: Record<string, unknown> = Object.fromEntries(new FormData(form).entries());
+      data.consent = (form.elements.namedItem('consent') as HTMLInputElement).checked;
+      return data;
+    };
+
+    const setFieldError = (field: string, message?: string) => {
+      const el = form.elements.namedItem(field) as HTMLInputElement | null;
+      const err = form.querySelector<HTMLElement>(`[data-error-for="${field}"]`);
+      if (el) el.setAttribute('aria-invalid', message ? 'true' : 'false');
+      if (err) {
+        err.textContent = message ?? '';
+        err.classList.toggle('hidden', !message);
+      }
+    };
+
+    const showErrors = (errors: Partial<Record<ContactField, string>>, only?: Set<string>) => {
+      const fields: ContactField[] = [
+        'name',
+        'email',
+        'business',
+        'website',
+        'service',
+        'budget',
+        'message',
+        'consent',
+      ];
+      for (const f of fields) {
+        if (only && !only.has(f)) continue;
+        setFieldError(f, errors[f]);
+      }
+    };
+
+    const validateTouched = () => {
+      const result = validateContact(formValues());
+      showErrors(result.ok ? {} : result.errors, touched);
+    };
+
+    form.addEventListener('focusout', (e) => {
+      const target = e.target as HTMLInputElement;
+      if (!target.name || target.type === 'hidden') return;
+      if (target.value || touched.has(target.name)) {
+        touched.add(target.name);
+        validateTouched();
+      }
+    });
+    form.addEventListener('input', (e) => {
+      const target = e.target as HTMLInputElement;
+      if (touched.has(target.name)) validateTouched();
+    });
+    form.addEventListener('change', (e) => {
+      const target = e.target as HTMLInputElement;
+      if (target.type === 'checkbox' || target.tagName === 'SELECT') {
+        touched.add(target.name);
+        validateTouched();
+      }
+    });
+
+    const setSubmitting = (busy: boolean) => {
+      submit.disabled = busy;
+      submit.setAttribute('aria-busy', String(busy));
+      spinner?.classList.toggle('hidden', !busy);
+      submitLabel.textContent = busy ? 'Sending…' : 'Request My Free Website Audit';
+    };
+
+    const showFormError = (message: string) => {
+      errorMessage.textContent = message;
+      errorBox.classList.remove('hidden');
+      errorBox.focus();
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorBox.classList.add('hidden');
+
+      const values = formValues();
+      const result = validateContact(values);
+      if (!result.ok) {
+        ['name', 'email', 'business', 'website', 'service', 'budget', 'message', 'consent'].forEach((f) =>
+          touched.add(f),
+        );
+        showErrors(result.errors);
+        const first = Object.keys(result.errors)[0];
+        (form.elements.namedItem(first) as HTMLElement | null)?.focus();
+        return;
+      }
+
+      if (form.dataset.turnstile === 'true' && !values['cf-turnstile-response']) {
+        showFormError('Please complete the spam check above the button, then submit again.');
+        return;
+      }
+
+      setSubmitting(true);
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({ ...values, [STARTED_AT_FIELD]: startedAt.value }),
+        });
+        let body: {
+          ok?: boolean;
+          message?: string;
+          errors?: Partial<Record<ContactField, string>>;
+          referenceId?: string;
+        } = {};
+        try {
+          body = await response.json();
+        } catch {
+          /* non-JSON error page */
+        }
+
+        if (response.ok && body.ok) {
+          const email = root.querySelector('[data-success-email]');
+          const ref = root.querySelector('[data-success-ref]');
+          if (email) email.textContent = result.data.email;
+          if (ref) ref.textContent = body.referenceId ?? '—';
+          form.classList.add('hidden');
+          success.classList.remove('hidden');
+          success.focus();
+          return;
+        }
+
+        if (body.errors) showErrors(body.errors);
+        showFormError(
+          body.message ??
+            `Something went wrong (error ${response.status}), so your request has not been delivered. Please try again in a few minutes.`,
+        );
+        (window as unknown as { turnstile?: { reset: () => void } }).turnstile?.reset();
+      } catch {
+        showFormError(
+          'We couldn’t reach our server, so your request has not been delivered. Please check your connection and try again.',
+        );
+      } finally {
+        setSubmitting(false);
+      }
+    });
+  }
+</script>

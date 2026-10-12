@@ -1,0 +1,50 @@
+---
+import { ArrowRight } from '@lucide/astro';
+
+interface Props {
+  href: string;
+  variant?: 'gold' | 'navy' | 'outline' | 'outline-light' | 'text' | 'text-light';
+  size?: 'md' | 'lg';
+  arrow?: boolean;
+  class?: string;
+  external?: boolean;
+  [key: string]: unknown;
+}
+
+const {
+  href,
+  variant = 'gold',
+  size = 'md',
+  arrow = false,
+  class: className = '',
+  external = false,
+  ...rest
+} = Astro.props;
+
+const base =
+  'group inline-flex items-center justify-center gap-2 font-semibold tracking-[-0.005em] transition-[background-color,color,border-color,box-shadow,transform] duration-300 ease-out-quart';
+const sizes = {
+  md: 'h-11 px-5 text-[0.9375rem] rounded-full',
+  lg: 'h-14 px-7 text-base rounded-full',
+};
+const variants = {
+  gold: 'bg-gold text-navy hover:bg-gold-300 shadow-[0_10px_30px_-12px_rgb(214_172_101/0.8)]',
+  navy: 'bg-navy text-paper hover:bg-navy-600',
+  outline: 'border border-navy/25 text-navy hover:border-navy hover:bg-navy hover:text-paper',
+  'outline-light': 'border border-paper/30 text-paper hover:border-paper hover:bg-paper hover:text-navy',
+  text: 'text-navy underline-offset-4 hover:underline px-0! h-auto!',
+  'text-light': 'text-paper underline-offset-4 hover:underline px-0! h-auto!',
+};
+const externalAttrs = external ? { target: '_blank', rel: 'noopener noreferrer' } : {};
+---
+
+<a href={href} class:list={[base, sizes[size], variants[variant], className]} {...externalAttrs} {...rest}>
+  <slot />
+  {arrow && (
+    <ArrowRight
+      aria-hidden="true"
+      class="size-4 transition-transform duration-300 ease-out-quart group-hover:translate-x-0.5"
+    />
+  )}
+  {external && <span class="sr-only">(opens in a new tab)</span>}
+</a>

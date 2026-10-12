@@ -1,0 +1,52 @@
+---
+import Button from '../ui/Button.astro';
+import { site } from '../../data/site';
+
+interface Props {
+  title?: string;
+  body?: string;
+}
+const {
+  title = 'Find out what your website could be doing better.',
+  body = 'Request a free website audit. We’ll review your site’s design, mobile experience, speed, search basics, and how easily visitors can contact you — then share practical recommendations. No obligation.',
+} = Astro.props;
+---
+
+<section class="relative overflow-hidden bg-navy text-paper" aria-labelledby="cta-title">
+  <svg
+    class="pointer-events-none absolute -top-24 -right-24 h-[32rem] w-[32rem] text-line-dark"
+    viewBox="0 0 40 40"
+    aria-hidden="true"
+  >
+    <path
+      fill="none"
+      stroke="currentColor"
+      stroke-width="0.15"
+      d="M5 8h5.75v25H5zM5 8h5.75L34 33h-5.75zM28.25 13.5H34V33h-5.75z"
+    ></path>
+    <path fill="none" stroke="#D6AC65" stroke-opacity="0.5" stroke-width="0.15" d="M31.125 1.5L37 12.5H25.25z"></path>
+  </svg>
+  <div class="container-x relative py-24 lg:py-32">
+    <div class="max-w-3xl">
+      <p class="eyebrow text-gold">Free website audit</p>
+      <h2 id="cta-title" class="mt-6 text-4xl leading-[1.05] font-medium sm:text-5xl lg:text-6xl">
+        {title}
+      </h2>
+      <p class="mt-6 max-w-2xl text-lg leading-relaxed text-mist">{body}</p>
+      <div class="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
+        <Button href="/contact" size="lg" arrow>
+          Get a Free Website Audit
+        </Button>
+        {site.contactEmail ? (
+          <Button href={`mailto:${site.contactEmail}`} variant="outline-light" size="lg">
+            Email {site.contactEmail}
+          </Button>
+        ) : (
+          <Button href="/work" variant="outline-light" size="lg">
+            Explore Our Work
+          </Button>
+        )}
+      </div>
+    </div>
+  </div>
+</section>

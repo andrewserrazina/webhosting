@@ -1,0 +1,127 @@
+---
+import { Menu, X } from '@lucide/astro';
+import Logo from '../brand/Logo.astro';
+import { mainNav, primaryCta } from '../../data/site';
+
+interface Props {
+  tone?: 'light' | 'dark';
+}
+const { tone = 'light' } = Astro.props;
+const path = Astro.url.pathname.replace(/\.html$/, '').replace(/\/+$/, '') || '/';
+const isActive = (href: string) => path === href || path.startsWith(`${href}/`);
+const dark = tone === 'dark';
+---
+
+<header
+  data-header
+  class:list={[
+    'sticky top-0 z-50 border-b backdrop-blur-sm transition-colors duration-300',
+    dark ? 'border-line-dark/60 bg-navy/95 text-paper' : 'border-line/70 bg-paper/95 text-navy',
+  ]}
+>
+  <div class="container-x flex h-[4.5rem] items-center justify-between gap-6">
+    <a href="/" class="-m-2 shrink-0 p-2" aria-label="Northline Digital — home">
+      <Logo tone={dark ? 'light' : 'navy'} class="h-7 w-auto sm:h-8" title="Northline Digital" />
+    </a>
+
+    <nav aria-label="Main" class="hidden md:block">
+      <ul class="flex items-center gap-1 lg:gap-2">
+        {mainNav.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              aria-current={isActive(item.href) ? 'page' : undefined}
+              class:list={[
+                'relative rounded-full px-4 py-2 text-[0.9375rem] font-medium transition-colors',
+                dark ? 'text-mist hover:text-paper' : 'text-slate-ink hover:text-navy',
+                'aria-[current=page]:after:absolute aria-[current=page]:after:inset-x-4 aria-[current=page]:after:-bottom-0.5 aria-[current=page]:after:h-px aria-[current=page]:after:bg-gold',
+                dark ? 'aria-[current=page]:text-paper' : 'aria-[current=page]:text-navy',
+              ]}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <a
+        href={primaryCta.href}
+        class="hidden h-11 items-center rounded-full bg-gold px-5 text-[0.9375rem] font-semibold text-navy transition-colors hover:bg-gold-300 sm:inline-flex"
+      >
+        Free Website Audit
+      </a>
+      <button
+        type="button"
+        class:list={[
+          'inline-flex size-11 items-center justify-center rounded-full border md:hidden',
+          dark ? 'border-line-dark text-paper' : 'border-line text-navy',
+        ]}
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        data-menu-toggle
+      >
+        <span class="sr-only" data-menu-label>
+          Open menu
+        </span>
+        <Menu class="size-5" aria-hidden="true" data-icon-open />
+        <X class="hidden size-5" aria-hidden="true" data-icon-close />
+      </button>
+    </div>
+  </div>
+
+  <div
+    id="mobile-menu"
+    hidden
+    class:list={['border-t md:hidden', dark ? 'border-line-dark bg-navy' : 'border-line bg-paper']}
+  >
+    <nav aria-label="Mobile" class="container-x py-6">
+      <ul class="space-y-1">
+        {mainNav.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              aria-current={isActive(item.href) ? 'page' : undefined}
+              class="font-display flex items-center justify-between border-b border-current/10 py-4 text-2xl aria-[current=page]:text-gold-ink"
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+      <a
+        href={primaryCta.href}
+        class="mt-6 flex h-14 items-center justify-center rounded-full bg-gold font-semibold text-navy"
+      >
+        {primaryCta.label}
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const menu = document.getElementById('mobile-menu');
+  if (toggle && menu) {
+    const label = toggle.querySelector('[data-menu-label]');
+    const iconOpen = toggle.querySelector('[data-icon-open]');
+    const iconClose = toggle.querySelector('[data-icon-close]');
+    const setOpen = (open: boolean) => {
+      toggle.setAttribute('aria-expanded', String(open));
+      menu.hidden = !open;
+      if (label) label.textContent = open ? 'Close menu' : 'Open menu';
+      iconOpen?.classList.toggle('hidden', open);
+      iconClose?.classList.toggle('hidden', !open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    };
+    toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+    window.matchMedia('(min-width: 768px)').addEventListener('change', (e) => e.matches && setOpen(false));
+  }
+</script>
