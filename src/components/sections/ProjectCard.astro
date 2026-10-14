@@ -1,0 +1,62 @@
+---
+import { ArrowUpRight } from '@lucide/astro';
+import BrowserFrame from '../ui/BrowserFrame.astro';
+import type { Project } from '../../data/projects';
+
+interface Props {
+  project: Project;
+  size?: 'large' | 'standard';
+  headingLevel?: 'h2' | 'h3';
+}
+const { project, size = 'standard', headingLevel: H = 'h3' } = Astro.props;
+const large = size === 'large';
+---
+
+<article class:list={['group relative', large && 'grid items-center gap-10 lg:grid-cols-12 lg:gap-16']} data-reveal>
+  <div class:list={[large && 'lg:col-span-7']}>
+    <div class="transition-transform duration-500 ease-out-quart group-hover:-translate-y-1">
+      <BrowserFrame
+        src={project.images.desktop}
+        alt={project.imageAlt.desktop}
+        label={project.displayUrl}
+        sizes={
+          large
+            ? '(min-width: 1280px) 720px, (min-width: 1024px) 56vw, 92vw'
+            : '(min-width: 1280px) 600px, (min-width: 768px) 45vw, 92vw'
+        }
+        aspect="aspect-[16/10]"
+      />
+    </div>
+  </div>
+  <div class:list={[large ? 'lg:col-span-5' : 'mt-7']}>
+    <p class="text-xs font-semibold tracking-[0.18em] text-gold-ink uppercase">{project.category}</p>
+    <H class:list={['mt-3 font-medium text-navy', large ? 'text-4xl sm:text-5xl' : 'text-3xl']}>
+      <a href={`/work/${project.slug}`} class="after:absolute after:inset-0 focus-visible:outline-none">
+        {project.name}
+      </a>
+    </H>
+    <p class:list={['mt-4 leading-relaxed text-slate-ink', large ? 'text-lg' : 'text-base']}>{project.summary}</p>
+    {large && (
+      <ul class="mt-6 flex flex-wrap gap-2" aria-label="Services delivered">
+        {project.services.map((s) => (
+          <li class="rounded-full border border-line px-3 py-1 text-sm text-slate-ink">{s}</li>
+        ))}
+      </ul>
+    )}
+    <p class="mt-6 inline-flex items-center gap-2 font-semibold text-navy">
+      <span class="link-underline group-hover:bg-[length:100%_1px]">Read the case study</span>
+      <ArrowUpRight
+        class="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+        aria-hidden="true"
+      />
+    </p>
+  </div>
+</article>
+
+<style>
+  article:has(a:focus-visible) {
+    outline: 3px solid var(--color-navy);
+    outline-offset: 8px;
+    border-radius: 0.75rem;
+  }
+</style>

@@ -1,0 +1,89 @@
+---
+import { Mail, ArrowUpRight } from '@lucide/astro';
+import Logo from '../brand/Logo.astro';
+import { mainNav, site, primaryCta } from '../../data/site';
+import { projects } from '../../data/projects';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-navy-900 text-mist">
+  <div class="container-x grid gap-12 py-16 md:grid-cols-12 lg:py-20">
+    <div class="md:col-span-5">
+      <a href="/" class="-m-2 inline-block p-2" aria-label="Northline Digital — home">
+        <Logo tone="light" class="h-8 w-auto" />
+      </a>
+      <p class="font-display mt-6 max-w-sm text-2xl leading-snug text-paper">{site.tagline}</p>
+      <p class="mt-4 max-w-sm text-[0.9375rem] leading-relaxed">
+        Website design, development, and digital solutions for small and growing businesses.
+      </p>
+      <a
+        href={primaryCta.href}
+        class="mt-8 inline-flex h-11 items-center rounded-full bg-gold px-5 text-[0.9375rem] font-semibold text-navy transition-colors hover:bg-gold-300"
+      >
+        {primaryCta.label}
+      </a>
+    </div>
+
+    <nav aria-label="Footer" class="grid grid-cols-2 gap-8 sm:grid-cols-3 md:col-span-7">
+      <div>
+        <h2 class="mb-4 font-sans text-xs font-semibold tracking-[0.18em] text-paper uppercase">Company</h2>
+        <ul class="space-y-3 text-[0.9375rem]">
+          <li>
+            <a class="link-underline hover:text-paper" href="/">
+              Home
+            </a>
+          </li>
+          {mainNav.map((item) => (
+            <li>
+              <a class="link-underline hover:text-paper" href={item.href}>
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h2 class="mb-4 font-sans text-xs font-semibold tracking-[0.18em] text-paper uppercase">Work</h2>
+        <ul class="space-y-3 text-[0.9375rem]">
+          {projects.map((p) => (
+            <li>
+              <a class="link-underline hover:text-paper" href={`/work/${p.slug}`}>
+                {p.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="col-span-2 sm:col-span-1">
+        <h2 class="mb-4 font-sans text-xs font-semibold tracking-[0.18em] text-paper uppercase">Get in touch</h2>
+        <ul class="space-y-3 text-[0.9375rem]">
+          <li>
+            <a class="link-underline inline-flex items-center gap-1 hover:text-paper" href="/contact">
+              Request a free audit <ArrowUpRight class="size-4" aria-hidden="true" />
+            </a>
+          </li>
+          {site.contactEmail && (
+            <li>
+              <a
+                class="link-underline inline-flex items-center gap-2 break-all hover:text-paper"
+                href={`mailto:${site.contactEmail}`}
+              >
+                <Mail class="size-4 shrink-0" aria-hidden="true" />
+                {site.contactEmail}
+              </a>
+            </li>
+          )}
+        </ul>
+      </div>
+    </nav>
+  </div>
+  <div class="border-t border-line-dark">
+    <div class="container-x flex flex-col gap-3 py-6 text-sm sm:flex-row sm:items-center sm:justify-between">
+      <p>&copy; {year} Northline Digital. All rights reserved.</p>
+      <a class="link-underline hover:text-paper" href="/privacy">
+        Privacy Policy
+      </a>
+    </div>
+  </div>
+</footer>

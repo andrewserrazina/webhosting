@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/sections/ProjectCard.astro';
+import CtaBand from '../../components/sections/CtaBand.astro';
+import { projects } from '../../data/projects';
+import { site } from '../../data/site';
+
+const [featured, ...rest] = projects;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}/` },
+    { '@type': 'ListItem', position: 2, name: 'Work', item: `${site.url}/work` },
+  ],
+};
+---
+
+<BaseLayout
+  title="Our Work — Website & Platform Case Studies"
+  description="Case studies from Northline Digital: a website overhaul for D&C Granite & Marble, the RealtorFinder real estate platform, and the Apex Aviation flight training website."
+  jsonLd={jsonLd}
+>
+  <section class="pt-16 pb-16 lg:pt-24 lg:pb-20" aria-labelledby="page-title">
+    <div class="container-x grid gap-10 lg:grid-cols-12">
+      <div class="lg:col-span-8">
+        <p class="eyebrow text-gold-ink">Our work</p>
+        <h1 id="page-title" class="mt-6 text-5xl leading-[1.03] font-medium sm:text-6xl lg:text-7xl">
+          Websites built for the businesses behind them.
+        </h1>
+      </div>
+      <div class="lg:col-span-4 lg:self-end">
+        <p class="text-lg leading-relaxed text-slate-ink">
+          Every project starts with how the business works and how its customers decide. Here’s a look at what that
+          produces.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-line pt-16 pb-24 lg:pt-24 lg:pb-32" aria-label="Projects">
+    <div class="container-x">
+      <ProjectCard project={featured} size="large" headingLevel="h2" />
+      <div class="mt-24 grid gap-16 md:grid-cols-2 md:gap-10 lg:gap-16">
+        {rest.map((project) => (
+          <ProjectCard project={project} headingLevel="h2" />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title="Want your business to be next?" />
+</BaseLayout>

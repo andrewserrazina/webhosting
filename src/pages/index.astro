@@ -1,0 +1,302 @@
+---
+import {
+  ArrowRight,
+  Check,
+  Search,
+  ShieldCheck,
+  Smartphone,
+  MousePointerClick,
+  Activity,
+  RefreshCw,
+  LifeBuoy,
+  FileText,
+} from '@lucide/astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/ui/Button.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import BrowserFrame from '../components/ui/BrowserFrame.astro';
+import PhoneFrame from '../components/ui/PhoneFrame.astro';
+import ProjectCard from '../components/sections/ProjectCard.astro';
+import ProcessSteps from '../components/sections/ProcessSteps.astro';
+import CtaBand from '../components/sections/CtaBand.astro';
+import { services } from '../data/services';
+import { projects, getProject } from '../data/projects';
+import { site } from '../data/site';
+
+const dc = getProject('dc-granite-and-marble')!;
+const apex = getProject('apex-aviation')!;
+const [featured, ...rest] = projects;
+
+const reasons = [
+  {
+    icon: ShieldCheck,
+    title: 'It’s your first impression',
+    body: 'Most customers look you up before they call. An outdated or broken website can make a great business look unreliable.',
+  },
+  {
+    icon: Smartphone,
+    title: 'Your customers are on their phones',
+    body: 'If your site is hard to read or use on a small screen, many visitors will leave before they learn what you offer.',
+  },
+  {
+    icon: Search,
+    title: 'People need to find you',
+    body: 'Clear structure, accurate information, and solid technical foundations help search engines understand and surface your business.',
+  },
+  {
+    icon: MousePointerClick,
+    title: 'Getting in touch should be easy',
+    body: 'Visible calls to action, simple forms, and click-to-call links remove the friction between interest and inquiry.',
+  },
+];
+
+const careItems = [
+  { icon: Activity, label: 'Uptime monitoring' },
+  { icon: RefreshCw, label: 'Routine updates & maintenance' },
+  { icon: FileText, label: 'Small content changes' },
+  { icon: LifeBuoy, label: 'Clearly defined support' },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': `${site.url}/#organization`,
+    name: site.name,
+    url: site.url,
+    logo: `${site.url}/brand/northline-mark.png`,
+    slogan: site.tagline,
+    description: site.description,
+    ...(site.contactEmail ? { email: site.contactEmail } : {}),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${site.url}/#website`,
+    name: site.name,
+    url: site.url,
+    publisher: { '@id': `${site.url}/#organization` },
+  },
+];
+---
+
+<BaseLayout
+  title="Northline Digital — Website Design & Development for Growing Businesses"
+  description="Northline Digital designs and develops modern websites and digital solutions for small and growing businesses. Get a free website audit."
+  jsonLd={jsonLd}
+>
+  {/* ---------------- Hero ---------------- */}
+  <section class="relative overflow-hidden" aria-labelledby="hero-title">
+    <div class="container-x grid items-center gap-14 pt-14 pb-20 lg:grid-cols-12 lg:gap-10 lg:pt-20 lg:pb-28">
+      <div class="lg:col-span-6 xl:col-span-6">
+        <p class="eyebrow text-gold-ink">Website design &amp; development</p>
+        <h1
+          id="hero-title"
+          class="mt-6 text-[2.75rem] leading-[1.02] font-medium text-navy sm:text-6xl lg:text-[4.25rem] xl:text-[4.75rem]"
+        >
+          Your Business Deserves a <em class="font-normal text-navy italic">Better</em>&nbsp;Website.
+        </h1>
+        <p class="mt-7 max-w-xl text-lg leading-relaxed text-slate-ink sm:text-xl">
+          We design and develop modern websites and digital solutions that help businesses build credibility, improve
+          their online presence, and turn more visitors into opportunities.
+        </p>
+        <div class="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
+          <Button href="/contact" size="lg" arrow>
+            Get a Free Website Audit
+          </Button>
+          <Button href="/work" variant="outline" size="lg">
+            Explore Our Work
+          </Button>
+        </div>
+      </div>
+
+      <div class="relative lg:col-span-6 xl:col-span-6">
+        <div
+          class="absolute top-10 -right-5 bottom-12 left-12 rounded-2xl bg-navy sm:left-20 lg:-right-16"
+          aria-hidden="true"
+        ></div>
+        <div class="relative pt-0 pr-6 sm:pr-14">
+          <BrowserFrame
+            src={dc.images.desktop}
+            alt={dc.imageAlt.desktop}
+            label={dc.displayUrl}
+            sizes="(min-width: 1280px) 600px, (min-width: 1024px) 46vw, 88vw"
+            loading="eager"
+            fetchpriority="high"
+            aspect="aspect-[16/10]"
+          />
+          <div class="absolute -bottom-10 right-0 w-[30%] max-w-[180px] sm:-bottom-12">
+            <PhoneFrame src={apex.images.mobile} alt={apex.imageAlt.mobile} sizes="180px" loading="eager" />
+          </div>
+        </div>
+        <p class="relative mt-20 text-sm text-slate-ink">
+          Recent work:{' '}
+          <a href={`/work/${dc.slug}`} class="link-underline font-semibold text-navy">
+            {dc.name}
+          </a>{' '}
+          and{' '}
+          <a href={`/work/${apex.slug}`} class="link-underline font-semibold text-navy">
+            {apex.name}
+          </a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {/* ---------------- Intro ---------------- */}
+  <section class="border-y border-line bg-white py-20 lg:py-28" aria-labelledby="intro-title">
+    <div class="container-x grid gap-10 lg:grid-cols-12">
+      <div class="lg:col-span-5">
+        <p class="eyebrow text-gold-ink">About Northline</p>
+      </div>
+      <div class="lg:col-span-7" data-reveal>
+        <h2 id="intro-title" class="text-3xl leading-[1.15] font-medium text-navy sm:text-4xl lg:text-[2.75rem]">
+          We don’t just make websites look better. We help businesses build a stronger, more professional digital
+          presence.
+        </h2>
+        <p class="mt-8 max-w-2xl text-lg leading-relaxed text-slate-ink">
+          Northline Digital works with local service businesses, contractors, professional service providers, and
+          growing companies. Our goal is simple: make it easier for your customers to find you, trust you, and get in
+          touch.
+        </p>
+        <a href="/about" class="mt-8 inline-flex items-center gap-2 font-semibold text-navy">
+          <span class="link-underline">More about our approach</span>
+          <ArrowRight class="size-4" aria-hidden="true" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {/* ---------------- Services ---------------- */}
+  <section class="py-24 lg:py-32" aria-labelledby="services-title">
+    <div class="container-x">
+      <div class="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
+        <SectionHeading id="services-title" eyebrow="What we do" title="Services built around real business needs." />
+        <Button href="/services" variant="outline" arrow class="self-start lg:self-auto">
+          All services
+        </Button>
+      </div>
+      <ul class="mt-16 grid gap-6 md:grid-cols-3">
+        {services.map((service) => (
+          <li
+            class="group relative flex flex-col rounded-2xl border border-line bg-white p-8 transition-[border-color,box-shadow] duration-300 hover:border-navy/30 hover:shadow-[0_20px_50px_-30px_rgb(11_31_58/0.45)] lg:p-10"
+            data-reveal
+          >
+            <span class="font-display text-lg text-gold-ink" aria-hidden="true">
+              {service.number}
+            </span>
+            <h3 class="mt-10 text-3xl font-medium">
+              <a href={`/services#${service.id}`} class="after:absolute after:inset-0">
+                {service.title}
+              </a>
+            </h3>
+            <p class="mt-4 flex-1 leading-relaxed text-slate-ink">{service.short}</p>
+            <p class="mt-8 flex items-center justify-between border-t border-line pt-5 text-sm font-semibold">
+              <span>{service.price}</span>
+              <ArrowRight
+                class="size-4 transition-transform duration-300 group-hover:translate-x-1"
+                aria-hidden="true"
+              />
+            </p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  {/* ---------------- Selected work ---------------- */}
+  <section class="bg-paper-200 py-24 lg:py-32" aria-labelledby="work-title">
+    <div class="container-x">
+      <div class="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
+        <SectionHeading
+          id="work-title"
+          eyebrow="Selected work"
+          title="Real projects for real businesses."
+          intro="From a local stone fabricator to a real estate platform and a flight training business."
+        />
+        <Button href="/work" variant="outline" arrow class="self-start lg:self-auto">
+          View all work
+        </Button>
+      </div>
+      <div class="mt-16">
+        <ProjectCard project={featured} size="large" />
+      </div>
+      <div class="mt-24 grid gap-16 md:grid-cols-2 md:gap-10 lg:gap-16">
+        {rest.map((project) => (
+          <ProjectCard project={project} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ---------------- Why quality matters ---------------- */}
+  <section class="py-24 lg:py-32" aria-labelledby="why-title">
+    <div class="container-x grid gap-16 lg:grid-cols-12">
+      <div class="lg:sticky lg:top-28 lg:col-span-5 lg:self-start">
+        <SectionHeading
+          id="why-title"
+          eyebrow="Why it matters"
+          title="Your website is often the first conversation you have with a customer."
+          intro="Before someone calls, visits, or requests a quote, they usually check your website. What they find shapes whether they reach out — or move on to the next result."
+        />
+      </div>
+      <ul class="grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:col-span-7 lg:pt-4">
+        {reasons.map(({ icon: Icon, title, body }) => (
+          <li data-reveal>
+            <span class="inline-flex size-12 items-center justify-center rounded-full bg-navy text-gold">
+              <Icon class="size-5" aria-hidden="true" />
+            </span>
+            <h3 class="mt-6 text-2xl font-medium">{title}</h3>
+            <p class="mt-3 leading-relaxed text-slate-ink">{body}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <div class="border-t border-line"></div>
+  <ProcessSteps />
+
+  {/* ---------------- Website care ---------------- */}
+  <section class="pb-24 lg:pb-32" aria-labelledby="care-title">
+    <div class="container-x">
+      <div class="grid overflow-hidden rounded-3xl bg-white ring-1 ring-line lg:grid-cols-12">
+        <div class="p-8 sm:p-12 lg:col-span-7 lg:p-16">
+          <p class="eyebrow text-gold-ink">Ongoing website care</p>
+          <h2 id="care-title" class="mt-6 text-4xl leading-[1.08] font-medium sm:text-5xl">
+            Launch is the beginning, not the end.
+          </h2>
+          <p class="mt-6 max-w-xl text-lg leading-relaxed text-slate-ink">
+            Websites need regular attention to stay secure, fast, and accurate. Our optional care plans keep your site
+            maintained and give you a dependable way to request updates — with a clearly defined scope, so you always
+            know what’s covered.
+          </p>
+          <div class="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
+            <Button href="/contact?service=website-care" variant="navy" arrow>
+              Request a Quote
+            </Button>
+            <Button href="/services#ongoing-website-care" variant="text">
+              What’s included
+            </Button>
+          </div>
+        </div>
+        <div class="bg-navy p-8 text-paper sm:p-12 lg:col-span-5 lg:p-16">
+          <ul class="space-y-6">
+            {careItems.map(({ icon: Icon, label }) => (
+              <li class="flex items-center gap-4 border-b border-line-dark pb-6 last:border-0 last:pb-0">
+                <Icon class="size-5 shrink-0 text-gold" aria-hidden="true" />
+                <span class="text-lg">{label}</span>
+              </li>
+            ))}
+          </ul>
+          <p class="mt-8 flex items-start gap-3 text-sm text-mist">
+            <Check class="mt-0.5 size-4 shrink-0 text-gold" aria-hidden="true" />
+            Care plans are quoted individually based on your site and the level of support you need.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</BaseLayout>

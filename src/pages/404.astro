@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/ui/Button.astro';
+---
+
+<BaseLayout title="Page Not Found" description="The page you were looking for could not be found." noindex>
+  <section class="py-24 lg:py-36" aria-labelledby="page-title">
+    <div class="container-x max-w-3xl">
+      <p class="eyebrow text-gold-ink">Error 404</p>
+      <h1 id="page-title" class="mt-6 text-5xl leading-[1.05] font-medium sm:text-6xl">
+        This page took a wrong turn.
+      </h1>
+      <p class="mt-6 text-lg leading-relaxed text-slate-ink">
+        The page you’re looking for doesn’t exist or may have moved. Let’s get you back on course.
+      </p>
+      <div class="mt-10 flex flex-col gap-4 sm:flex-row">
+        <Button href="/" variant="navy" arrow>
+          Go to the homepage
+        </Button>
+        <Button href="/contact" variant="outline">
+          Contact us
+        </Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

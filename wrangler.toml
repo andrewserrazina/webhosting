@@ -1,0 +1,13 @@
+# Cloudflare Pages configuration for Northline Digital.
+# Build command: npm run build   Output directory: dist
+name = "northline-digital"
+pages_build_output_dir = "./dist"
+compatibility_date = "2026-09-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Optional KV namespace for durable rate limiting and backup storage of any
+# submission that could not be emailed. Create it, then uncomment:
+#   npx wrangler kv namespace create CONTACT_KV
+# [[kv_namespaces]]
+# binding = "CONTACT_KV"
+# id = "<your-namespace-id>"
