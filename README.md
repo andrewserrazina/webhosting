@@ -1,8 +1,10 @@
-# Northline Digital
+# Valebrook Studio
+
+> Rebrand in progress. Replace all generated raster assets, verify the owned production domain, and test Cloudflare email delivery before launch.
 
 **Better Websites. Stronger Businesses.**
 
-Marketing website for Northline Digital, a web design and development agency for small and growing businesses. It is a static Astro site with one Cloudflare Pages Function that handles the contact / free website audit form.
+Marketing website for Valebrook Studio, a web design and development agency for small and growing businesses. It is a static Astro site with one Cloudflare Pages Function that handles the contact / free website audit form.
 
 - **Stack:** Astro 7 (static output) · TypeScript · Tailwind CSS 4 · Lucide icons · Cloudflare Pages + Pages Functions
 - **Client-side JS:** about 1 KB gzipped on most pages and about 3.5 KB on `/contact`, all first-party (mobile menu, scroll reveal, contact form). No frameworks, no trackers.
@@ -72,7 +74,7 @@ See `.env.example` for the full annotated list.
 
 | Variable                    | Required | Purpose                                                                                                            |
 | --------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------ |
-| `PUBLIC_SITE_URL`           | Yes      | Canonical origin, e.g. `https://northlinedigital.com`. Used for canonical URLs, Open Graph, sitemap and robots.txt |
+| `PUBLIC_SITE_URL`           | Yes      | Canonical origin, e.g. `https://example.com`. Used for canonical URLs, Open Graph, sitemap and robots.txt |
 | `PUBLIC_CONTACT_EMAIL`      | No       | Public email shown in the footer, contact page and error messages. Hidden when empty                               |
 | `PUBLIC_TURNSTILE_SITE_KEY` | No       | Shows the Cloudflare Turnstile spam check on the contact form                                                      |
 
@@ -83,7 +85,7 @@ See `.env.example` for the full annotated list.
 | `EMAIL_PROVIDER`                               | Yes                | `resend` (default) or `postmark`                                    |
 | `EMAIL_API_KEY`                                | Yes                | Resend API key or Postmark server token                             |
 | `CONTACT_TO_EMAIL`                             | Yes                | Inbox that receives inquiries (comma-separate several for Resend)   |
-| `CONTACT_FROM_EMAIL`                           | Yes                | Verified sender, e.g. `Northline Digital <forms@yourdomain.com>`    |
+| `CONTACT_FROM_EMAIL`                           | Yes                | Verified sender, e.g. `Valebrook Studio <forms@yourdomain.com>`    |
 | `TURNSTILE_SECRET_KEY`                         | If Turnstile is on | Server-side Turnstile verification                                  |
 | `PUBLIC_SITE_URL`                              | Recommended        | Also set at runtime so the origin check knows the production domain |
 | `ALLOWED_ORIGINS`                              | No                 | Comma-separated extra origins allowed to post the form              |
@@ -114,11 +116,11 @@ Optional binding: **`CONTACT_KV`** (KV namespace). When it is bound, rate limiti
 5. **Optional KV:** `npx wrangler kv namespace create CONTACT_KV`, then bind it under Settings → Bindings → KV namespace → variable name `CONTACT_KV`. You can also uncomment the block in `wrangler.toml`.
 6. Deploy, then test the contact form on the `*.pages.dev` URL before connecting the domain.
 
-CLI alternative (after `npx wrangler login`): `npm run build && npx wrangler pages deploy dist --project-name northline-digital`.
+CLI alternative (after `npx wrangler login`): `npm run build && npx wrangler pages deploy dist --project-name valebrook-studio`.
 
 ### Custom domain
 
-1. Pages project → Custom domains → _Set up a custom domain_ → enter the domain (for example `northlinedigital.com`, plus `www`).
+1. Pages project → Custom domains → _Set up a custom domain_ → enter the domain (for example `example.com`, plus `www`).
 2. If the domain's DNS is on Cloudflare, records are created automatically. Otherwise add the CNAME that Cloudflare shows at your DNS host.
 3. Choose one canonical host (apex or `www`) and redirect the other with a Cloudflare _Redirect Rule_.
 4. Set `PUBLIC_SITE_URL` to the canonical origin and **redeploy** so canonical URLs, the sitemap and Open Graph tags use it.
@@ -127,7 +129,7 @@ CLI alternative (after `npx wrangler login`): `npm run build && npx wrangler pag
 
 1. Create a Resend account → Domains → add your sending domain (e.g. `yourdomain.com`) → add the SPF/DKIM DNS records it shows → wait until it reads _Verified_.
 2. Create an API key with _Sending access_.
-3. In Cloudflare Pages set `EMAIL_PROVIDER=resend`, `EMAIL_API_KEY=<key>`, `CONTACT_TO_EMAIL=<your inbox>`, `CONTACT_FROM_EMAIL="Northline Digital <forms@yourdomain.com>"`, then redeploy.
+3. In Cloudflare Pages set `EMAIL_PROVIDER=resend`, `EMAIL_API_KEY=<key>`, `CONTACT_TO_EMAIL=<your inbox>`, `CONTACT_FROM_EMAIL="Valebrook Studio <forms@yourdomain.com>"`, then redeploy.
 4. Submit a real test inquiry. Confirm it arrives, that replying goes to the visitor's address, and that the success screen shows a reference ID.
 
 **Postmark** works the same way: verify a sender signature or domain, use the _Server API token_ as `EMAIL_API_KEY`, and set `EMAIL_PROVIDER=postmark`.
@@ -152,7 +154,7 @@ If Chromium is installed somewhere non-standard, set `CHROMIUM_PATH`.
 - Logo: `src/components/brand/Logo.astro`. It combines a geometric "N" mark whose right stem rises into a north-pointing marker with an outlined Fraunces wordmark, so it has no font dependency.
 - Standalone files: `public/brand/northline-logo.svg`, `northline-logo-reversed.svg`, `northline-mark.svg`, `northline-mark.png`
 - Favicons: `public/favicon.svg`, `favicon.ico`, `apple-touch-icon.png`, `icon-192.png`, `icon-512.png`
-- Social image: `public/og/northline-digital.png` (1200×630)
+- Social image: `public/og/valebrook-studio.png` (1200×630)
 - Palette: navy `#0B1F3A`, warm white `#FAFAF7`, muted gold `#D6AC65`, slate `#64748B`, white. On light backgrounds, small gold text uses a darker tone (`#85642A`) to keep AA contrast.
 
 See [`LAUNCH_CHECKLIST.md`](./LAUNCH_CHECKLIST.md) for what remains before going live.
