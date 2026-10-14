@@ -64,7 +64,7 @@ const jsonLd = [
     '@id': `${site.url}/#organization`,
     name: site.name,
     url: site.url,
-    logo: `${site.url}/brand/northline-mark.png`,
+    logo: `${site.url}/brand/valebrook-mark.png`,
     slogan: site.tagline,
     description: site.description,
     ...(site.contactEmail ? { email: site.contactEmail } : {}),
@@ -176,7 +176,7 @@ const jsonLd = [
           All services
         </Button>
       </div>
-      <ul class="mt-16 grid gap-6 md:grid-cols-3">
+      <ul class="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         {services.map((service) => (
           <li
             class="group relative flex flex-col rounded-2xl border border-line bg-white p-8 transition-[border-color,box-shadow] duration-300 hover:border-navy/30 hover:shadow-[0_20px_50px_-30px_rgb(11_31_58/0.45)] lg:p-10"
