@@ -7,6 +7,7 @@
 
 export const SERVICE_OPTIONS = [
   { value: 'website-audit', label: 'Free website audit' },
+  { value: 'website-refresh', label: '$199 one-page website refresh' },
   { value: 'website-overhaul', label: 'Website overhaul' },
   { value: 'new-website', label: 'New website development' },
   { value: 'digital-solutions', label: 'Business digital solutions' },
