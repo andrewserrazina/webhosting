@@ -1,12 +1,12 @@
 /** Global site configuration. Public values come from build-time env vars. */
 
-const rawSiteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://northlinedigital.com';
+const rawSiteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://example.com';
 
 export const site = {
-  name: 'Northline Digital',
+  name: 'Valebrook Studio',
   tagline: 'Better Websites. Stronger Businesses.',
   description:
-    'Northline Digital designs and develops modern websites and digital solutions that help small and growing businesses build credibility and turn more visitors into opportunities.',
+    'Valebrook Studio designs and develops modern websites and digital solutions that help small and growing businesses build credibility and turn more visitors into opportunities.',
   url: rawSiteUrl.replace(/\/+$/, ''),
   /** Public contact email. Empty string hides it everywhere on the site. */
   contactEmail: (import.meta.env.PUBLIC_CONTACT_EMAIL || '').trim(),
