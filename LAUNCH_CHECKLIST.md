@@ -18,7 +18,7 @@ Status as of 2026-10-12. ✅ = done and verified in this repository · ⬜ = nee
 ## 2. Needs credentials or setup (owner)
 
 - ⬜ **Create the Cloudflare Pages project** and connect this repository (README → Deploying)
-- ⬜ **Choose and confirm the production domain** and set `PUBLIC_SITE_URL`. The placeholder `https://northlinedigital.com` is used until you set it. Domain ownership has not been verified.
+- ⬜ **Choose and confirm the production domain** and set `PUBLIC_SITE_URL`. The placeholder `https://example.com` is used until you set it. Domain ownership has not been verified.
 - ⬜ **Email provider account** (Resend or Postmark): verify the sending domain (SPF/DKIM) and set `EMAIL_PROVIDER`, `EMAIL_API_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL`
 - ⬜ **End-to-end form test on the deployed site.** The form must not be called live until a real submission arrives in the inbox and replying reaches the sender.
 - ⬜ **Public contact email:** set `PUBLIC_CONTACT_EMAIL` if you want an email address shown. Until then the site shows only the form.

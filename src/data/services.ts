@@ -13,8 +13,20 @@ export interface Service {
 
 export const services: Service[] = [
   {
-    id: 'website-overhauls',
+    id: 'website-refresh',
     number: '01',
+    title: 'One-Page Website Refresh',
+    short: 'A focused $199 update to one existing webpage, improving its look and clarity without rebuilding the entire site.',
+    price: '$199 introductory offer',
+    priceNote: 'One existing page only. No new website, full redesign, custom functionality, hosting, or ongoing SEO campaign included. Subject to a quick scope review.',
+    summary: 'A straightforward refresh for businesses that need one existing page to make a better first impression. We agree on a small, written scope before starting; larger changes are quoted separately.',
+    includes: ['Visual and layout polish for one existing webpage', 'Mobile readability and spacing improvements within the existing platform', 'Clearer headline and call-to-action placement', 'Basic on-page title and heading review where editable'],
+    goodFit: ['You already have a working website', 'You want a focused improvement without a full rebuild', 'Your existing platform allows the agreed edits'],
+    cta: { label: 'Ask About the $199 Refresh', href: '/contact?service=website-refresh' },
+  },
+  {
+    id: 'website-overhauls',
+    number: '02',
     title: 'Website Overhauls',
     short:
       'Modernize an existing website with stronger design, mobile responsiveness, and clearer paths for customers to get in touch.',
@@ -38,7 +50,7 @@ export const services: Service[] = [
   },
   {
     id: 'new-website-development',
-    number: '02',
+    number: '03',
     title: 'New Website Development',
     short: 'Custom business websites designed around your brand, your services, and how your customers make decisions.',
     price: 'Individually quoted',
@@ -61,7 +73,7 @@ export const services: Service[] = [
   },
   {
     id: 'business-digital-solutions',
-    number: '03',
+    number: '04',
     title: 'Business Digital Solutions',
     short:
       'Scoped projects for professional business email, Google Business Profile optimization, and better day-to-day digital systems.',
@@ -85,7 +97,7 @@ export const services: Service[] = [
 
 export const careService: Service = {
   id: 'ongoing-website-care',
-  number: '04',
+  number: '05',
   title: 'Ongoing Website Care',
   short: 'Optional monthly maintenance, monitoring, routine updates, and clearly defined support.',
   price: 'Request a quote',

@@ -39,6 +39,8 @@ export interface Project {
   };
   imageAlt: { desktop: string; long: string; mobile: string };
   featured?: boolean;
+  results?: { label: string; before: string; after: string; change: string }[];
+  resultsNote?: string;
 }
 
 export const projects: Project[] = [
@@ -50,12 +52,19 @@ export const projects: Project[] = [
     industry: 'Stone fabrication & home improvement',
     category: 'Small-business transformation',
     featured: true,
+    results: [
+      { label: 'Website sessions', before: '434', after: '713', change: '+64.3%' },
+      { label: 'Active users', before: '350', after: '615', change: '+75.7%' },
+      { label: 'Google search clicks', before: '114', after: '190', change: '+66.7%' },
+      { label: 'Google search impressions', before: '4,225', after: '9,152', change: '+116.6%' },
+    ],
+    resultsNote: 'GA4 sessions and active users; Google Search Console search clicks and impressions. April 1–June 30 versus July 1–September 30, 2026. The redesign launched during July, so the later quarter includes an unknown number of pre-launch days. Changes are observational, not proof of causation. Search click-through rate and average position worsened over the comparison; tracked key events did not establish lead or sales growth.',
     summary:
-      'A complete website overhaul for a Western Massachusetts countertop fabricator, together with business email, IT support, and Google presence improvements.',
-    seoTitle: 'D&C Granite & Marble Case Study — Website Overhaul',
+      'A website redesign and local SEO project for a Western Massachusetts countertop fabricator, followed by 64% more sessions and 117% more Google search impressions in the compared quarters.',
+    seoTitle: 'D&C Granite & Marble — Website & SEO Case Study',
     seoDescription:
-      'How Northline Digital rebuilt the website, business email, and Google presence for D&C Granite & Marble, a countertop fabricator in Western Massachusetts.',
-    services: ['Complete website overhaul', 'Business email overhaul', 'IT support', 'Google presence improvements'],
+      'How Valebrook Studio rebuilt the website, business email, and Google presence for D&C Granite & Marble, a countertop fabricator in Western Massachusetts.',
+    services: ['Website design & development', 'On-page and local SEO', 'Business email overhaul', 'IT support', 'Google presence improvements'],
     overview: [
       'D&C Granite & Marble Design Gallery is a stone fabrication business based in Ludlow, Massachusetts, producing custom granite, quartz, and marble countertops, vanities, and fireplace surrounds for homeowners across Western Massachusetts and northern Connecticut.',
       'This was a full small-business engagement. Alongside a complete rebuild of the website, we overhauled the company’s business email, provided IT support, and improved how the business appears on Google.',
@@ -118,7 +127,7 @@ export const projects: Project[] = [
       'Product design and development for a real estate platform where home sellers list once and licensed agents compete with proposals.',
     seoTitle: 'RealtorFinder Case Study — Platform Design',
     seoDescription:
-      'Northline Digital designed and developed RealtorFinder, a reverse real estate marketplace platform that lets home sellers compare competing agent proposals.',
+      'Valebrook Studio designed and developed RealtorFinder, a reverse real estate marketplace platform that lets home sellers compare competing agent proposals.',
     services: ['Product strategy', 'Platform design', 'Web application development', 'Waitlist & onboarding flows'],
     overview: [
       'RealtorFinder is a real estate technology platform built around a simple idea: instead of sellers chasing agents, sellers post their home once and licensed realtors submit competing proposals covering commission, marketing plans, and experience.',
@@ -180,7 +189,7 @@ export const projects: Project[] = [
       'A website for an Austin-area flight training business that supports training programs, digital study products, and customer inquiries.',
     seoTitle: 'Apex Aviation Case Study — Website for Flight Training',
     seoDescription:
-      'How Northline Digital built a website connecting pilot training programs, digital checkride prep products, and inquiries for Apex Aviation in Austin, TX.',
+      'How Valebrook Studio built a website connecting pilot training programs, digital checkride prep products, and inquiries for Apex Aviation in Austin, TX.',
     services: [
       'Website design & development',
       'Digital product pathways',
