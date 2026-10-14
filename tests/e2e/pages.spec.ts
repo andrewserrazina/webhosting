@@ -28,7 +28,7 @@ test.describe('core pages', () => {
       expect(canonical?.endsWith(route)).toBe(true);
       await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
         'content',
-        /\/og\/northline-digital\.png$/,
+        /\/og\/valebrook-studio\.png$/,
       );
 
       expect(await page.locator('img:not([alt])').count()).toBe(0);
